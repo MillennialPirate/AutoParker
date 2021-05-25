@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&display=swap');
+body 
+{
+    height: 100%;
+    width: 100%;
+    font-family: 'Cabin', sans-serif;
+}
