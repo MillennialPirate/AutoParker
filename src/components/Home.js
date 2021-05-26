@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.css';
 import Car from './images/car.svg';
 import Alogin from './AdminLogin';
+import CLogin from './CustomerEntry';
 class Home extends React.Component 
 {
     constructor(props)
@@ -52,6 +53,10 @@ class Home extends React.Component
         if(this.state.status === "admin")
         {
             return <Alogin/>
+        }
+        if(this.state.status === "customer")
+        {
+            return <CLogin/>
         }
     }
     render()
