@@ -37,7 +37,16 @@ class Info extends React.Component
             cost: this.state.cost, 
             slots: this.state.slots, 
             name: this.state.name,
+            uid: this.state.uid,
         };
+        var i = 0;
+        for(i = 0; i < this.state.slots; i++)
+        {
+            const data = {
+                regNo : "",
+            }
+            const res1 = await db.collection(this.state.uid).doc('Information').collection('Slots').doc(String(i)).set(data);
+        }
         const res = await db.collection(this.state.uid).doc('Information').set(data);
         window.alert("Account created! Please login again to follow the next steps");
         this.setState({status: "home"});
