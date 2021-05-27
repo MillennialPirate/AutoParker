@@ -5,6 +5,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Heap from './Heap';
 import Assigned from './Assigned';
+import CLogin from './CustomerLogin';
 class CEntry extends React.Component
 {
     constructor(props)
@@ -22,10 +23,32 @@ class CEntry extends React.Component
         this.password = this.password.bind(this);
         this.parkId = this.parkId.bind(this);
         this.assign = this.assign.bind(this);
+        this.login = this.login.bind(this);
+    }
+    login(e)
+    {
+        e.preventDefault();
+        this.setState({status: 'login'});
     }
     async assign(e)
     {
         this.setState({status: "loading"});
+        //check if the user exists already or not 
+        const ref3 = db.collection(this.state.parkId).doc('Information').collection('Users');
+        var reg = "";
+        const snap5 = await ref3.get();
+        snap5.forEach((doc) => {
+            if(this.state.regNo === doc.id)
+            {
+                reg = doc.id;
+            }
+        })
+        if(reg != "")
+        {
+            window.alert("User exists");
+            this.setState({status: "home"});
+            return;
+        }
         Heap.refresh();
         //find all the slots available from the databse 
         const ref = db.collection(this.state.parkId).doc('Information').collection('Slots');
@@ -103,7 +126,7 @@ class CEntry extends React.Component
                             </div>
                         </form>
                     </main>
-                    <button class="button1" type="submit" onClick = {this.assign}>Proceed</button>{ "  " }<button class = "button2" onClick = {this.assign}>Click!</button>
+                    <button class="button1" type="submit" onClick = {this.assign}>Proceed</button>{ "  " }<button class = "button2" onClick = {this.login}>Login</button>
                         </div>
                     </div>
                 </div>
@@ -145,6 +168,10 @@ class CEntry extends React.Component
                     </div>
                 </div>
             )
+        }
+        if(this.state.status === "login")
+        {
+            return <CLogin/>
         }
         if(this.state.status === "added")
         {

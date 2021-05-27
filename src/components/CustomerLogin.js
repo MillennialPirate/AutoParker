@@ -1,125 +1,165 @@
 import React from 'react';
-import './styles.css'; 
-import Profile from './profile';
-import Register from './CustomerEntry';
-import {auth} from '../firebase/firebase';
+import './styles.css';
 import {db} from '../firebase/firebase';
-class ALogin extends React.Component 
-{ 
-    constructor(props) 
-    { 
-        super(props); 
-        this.state = 
-        { 
-            uid: "",
-            status: "login",
-            email: "",
-            password: "" ,
-            name: "",
-        } 
-        this.checkStatus = this.checkStatus.bind(this); 
-        this.register = this.register.bind(this);
-        this.login = this.login.bind(this);
-        this.email = this.email.bind(this);
-        this.password = this.password.bind(this);
-    } 
-    email(e)
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+import Heap from './Heap';
+import Assigned from './Assigned';
+import CEntry from './CustomerEntry';
+class CLogin extends React.Component
+{
+    constructor(props)
     {
-        this.setState({email: e.target.value});
+        super(props);
+        this.state = {
+            status : "home",
+            regNo: "",
+            password : "",
+            parkId: "",
+            slot: "",
+        }
+        this.checkStatus = this.checkStatus.bind(this);
+        this.reg = this.reg.bind(this);
+        this.password = this.password.bind(this);
+        this.parkId = this.parkId.bind(this);
+        this.assign = this.assign.bind(this);
+        this.register = this.register.bind(this);
+    }
+
+    register(e)
+    {
+        this.setState({status: "register"});
+    }
+    async assign(e)
+    {
+        this.setState({status: "loading"});
+        var reg = "", pass = "";
+        const ref = db.collection(this.state.parkId).doc('Information').collection('Users');
+        const snap1 = await ref.get();
+        var slot;
+        snap1.forEach((doc) => {
+            if(doc.id === this.state.regNo)
+            {
+                reg = doc.id;
+                pass = doc.data().password;
+                slot = doc.data().slot;
+            }
+        });
+        console.log(reg + " " + pass);
+        if(reg == "")
+        {
+            window.alert("User not found");
+            return;
+        }
+        if(pass != this.state.password)
+        {
+            window.alert("Wrong credentials");
+            return;
+        }
+        //find the slots
+        this.setState({slot: slot});
+        this.setState({status: "added"});
+    }
+    reg(e)
+    {
+        this.setState({regNo: e.target.value});
     }
     password(e)
     {
         this.setState({password: e.target.value});
     }
-    register(e)
+    parkId(e)
     {
-        e.preventDefault();
-        this.setState({status: "register"})
+        this.setState({parkId: e.target.value});
     }
-    async login(e)
+    checkStatus()
     {
-        e.preventDefault();
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(async (userCredential) => {
-            // Signed in
-            var user = userCredential.user.uid;
-            // ...
-            //fill the information from the database
-            const ref = db.collection(user);
-            const snapshot = await ref.get();
-            snapshot.forEach(doc => {
-                if(doc.id === "Information")
-                {
-                    const Cost = doc.data().cost;
-                    const Slots = doc.data().slots;
-                    const Name = doc.data().name;
-                    this.setState({cost : Cost});
-                    this.setState({slots: Slots});
-                    this.setState({name: Name});
-                }
-            })
-            this.setState({uid: user});
-            this.setState({status:"logged"})
-        })
-        .catch((error) => {
-            if (
-                error.code === "auth/invalid-email" ||
-                error.code === "auth/user-not-found"
-              ) {
-                window.alert("User not found");
-              } else if (error.code === "auth/wrong-password") {
-                window.alert("Wrong password");
-              }
-        });
-    }
-    checkStatus() 
-    { 
-        if (this.state.status === "login") 
-        { 
+        if(this.state.status === "home")
+        {
             return (
-            <div>
-                <div style={{textAlign:"center"}}>
-                    <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
-                </div>
-                <div class = "container">
-                    <div style={{paddingTop:"5%"}}></div>
-                    <div class = "text-center">
-                    <h1 class = "title">Admin Login</h1>
-                    <main class="form-signin">
+                <div>
+                    <div style = {{textAlign:"center"}}>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                    </div>
+                    <div style = {{paddingTop:"2%"}}></div>
+                    <div class = "container">
+                        <div style = {{textAlign:"center"}}>
+
+                        </div>
+                        <div style = {{textAlign:"center"}}>
+                            <h1>Please fill in the information</h1>
+                        <main class="form-signin">
                         <form>
-                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                             <div class="form-floating">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name = "email" onChange = {this.email}/>
-                            <label for="floatingInput">Email address</label>
+                            <input type="email" class="form-control" id="floatingInput" placeholder="XX XX XX XXXX" name = "email" onChange = {this.reg}/>
+                            <label for="floatingInput">Reg.No</label>
                             </div>
                             <div class="form-floating">
                             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name = "password" onChange = {this.password}/>
                             <label for="floatingPassword">Password</label>
                             </div>
-                            
-                           
+                            <div class="form-floating">
+                            <input type="parkId" class="form-control" id="floatingInput" placeholder="Parking id" name = "parkId" onChange = {this.parkId}/>
+                            <label for="floatingPassword">Enter the parking id:</label>
+                            </div>
                         </form>
                     </main>
-                    <button class="button1" type="submit" onClick = {this.login}>Sign in</button>{"  "}<button class = "button2" onClick = {this.register}>Register</button>
-                    <p class="mt-5 mb-3 text-muted" style={{fontSize:"1rem"}}>&copyright; 2021–2022</p>
+                    <button class="button1" type="submit" onClick = {this.assign}>Proceed</button>{ "  " }<button class = "button2" onClick = {this.register}>Sign up</button>
+                        </div>
                     </div>
-                    
                 </div>
-            </div>
-            ) 
-        } 
+            )
+        }
+        if(this.state.status === "loading")
+        {
+            return (
+                <div>
+                    <div style = {{textAlign:"center"}}>
+                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                    </div>
+                    <div style = {{paddingTop:"2%"}}></div>
+                    <div class = "container">
+                        <div style = {{textAlign:"center"}}>
+
+                        </div>
+                        <div style = {{textAlign:"center"}}>
+                            <h1>Please fill in the information</h1>
+                        <main class="form-signin">
+                        <form>
+
+                            <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="XX XX XX XXXX" name = "email" onChange = {this.reg}/>
+                            <label for="floatingInput">Reg.No</label>
+                            </div>
+                            <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name = "password" onChange = {this.password}/>
+                            <label for="floatingPassword">Password</label>
+                            </div>
+                            <div class="form-floating">
+                            <input type="parkId" class="form-control" id="floatingInput" placeholder="Parking id" name = "parkId" onChange = {this.parkId}/>
+                            <label for="floatingPassword">Enter the parking id:</label>
+                            </div>
+                        </form>
+                    </main>
+                    <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        if(this.state.status === "added")
+        {
+            return <Assigned parkId = {this.state.parkId} regNo = {this.state.regNo} slot = {this.state.slot}/>
+        }
         if(this.state.status === "register")
         {
-            return <Register/>
+            return <CEntry/>
         }
-        if(this.state.status === "logged")
-        {
-            return <Profile uid = {this.state.uid} name = {this.state.name} slots = {this.state.slots} cost = {this.state.cost}/>
-        }
-    } 
-    render() { 
-        return this.checkStatus(); 
-    } 
-} 
-export default ALogin;
+    }
+    render()
+    {
+        return this.checkStatus();
+    }
+}
+export default CLogin;
