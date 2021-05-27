@@ -1,57 +1,90 @@
-class BH {
+class minHeap {
     constructor() {
-      this.values = [];
-    }
-    add(element) {
-      this.values.push(element);
-      let index = this.values.length - 1;
-      const current = this.values[index];
-  
-      while (index > 0) {
-        let parentIndex = Math.floor((index - 1) / 2);
-        let parent = this.values[parentIndex];
-  
-        if (parent <= current) {
-          this.values[parentIndex] = current;
-          this.values[index] = parent;
-          index = parentIndex;
-        } else break;
-      }
-    }
-    extractMax() {
-        const max = this.values[0];
-        const end = this.values.pop();
-        this.values[0] = end;
-    
-        let index = 0;
-        const length = this.values.length;
-        const current = this.values[0];
-        while (true) {
-          let leftChildIndex = 2 * index + 1;
-          let rightChildIndex = 2 * index + 2;
-          let leftChild, rightChild;
-          let swap = null;
-    
-          if (leftChildIndex < length) {
-            leftChild = this.values[leftChildIndex];
-            if (leftChild > current) swap = leftChildIndex;
-          }
-          if (rightChildIndex < length) {
-            rightChild = this.values[rightChildIndex];
-            if (
-              (swap === null && rightChild > current) ||
-              (swap !== null && rightChild > leftChild)
-            )
-              swap = rightChildIndex;
-          }
-    
-          if (swap === null) break;
-          this.values[index] = this.values[swap];
-          this.values[swap] = current;
-          index = swap;
+        this.heap = []
+        this.elements = 0;
+    };
+
+    insert(val) {
+        if (this.elements >= this.heap.length) {
+            this.elements = this.elements + 1
+            this.heap.push(val);
+            this.__percolateUp(this.heap.length - 1);
         }
+        else {
+            this.heap[this.elements] = val;
+            this.elements = this.elements + 1;
+            this.__percolateUp(this.elements - 1);
+        }
+    };
     
-        return max;
-      }
-  }
-  
+    getMin() {
+        if (this.heap.length !== 0)
+            return this.heap[0];
+        return null;
+    }
+
+    removeMin() {
+        const min = this.heap[0];
+        if (this.elements > 1) {            
+            this.heap[0] = this.heap[this.elements - 1];
+            this.elements = this.elements - 1;
+            this.__minHeapify(0);
+            return min;
+        } else if (this.elements == 1) {
+            this.elements = this.elements - 1;
+            return min;
+        } else {
+            return null;
+        }
+    };
+
+    __percolateUp(index) {
+        let parent = Math.floor((index - 1) / 2);
+        if (index <= 0)
+            return
+        else if (this.heap[parent] > this.heap[index]) {
+            let tmp = this.heap[parent];
+            this.heap[parent] = this.heap[index];
+            this.heap[index] = tmp;
+            this.__percolateUp(parent);
+        }
+    };
+
+    __minHeapify(index) {
+        let left = (index * 2) + 1;
+        let right = (index * 2) + 2;
+        let smallest = index;
+        if ((this.elements > left) && (this.heap[smallest] > this.heap[left])) {
+            smallest = left;
+        }
+        if ((this.elements > right) && (this.heap[smallest] > this.heap[right]))
+            smallest = right;
+        if (smallest !== index) {
+            let tmp = this.heap[smallest];
+            this.heap[smallest] = this.heap[index];
+            this.heap[index] = tmp;
+            this.__minHeapify(smallest);
+        }
+    }
+
+    buildHeap(arr) {
+        this.heap = arr;
+        this.elements = this.heap.length;
+        for (let i = this.heap.length - 1; i >= 0; i--) {
+            this.__minHeapify(i)
+        }
+    }
+};
+let heap = new minHeap();
+module.exports.refresh = function(){
+    heap = new minHeap();
+}
+module.exports.insert = function(x){
+    heap.insert(x);
+}
+module.exports.remove = function(){
+    heap.removeMin();
+}
+module.exports.getMin = function(){
+    return heap.getMin();
+}
