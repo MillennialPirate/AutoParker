@@ -5,6 +5,9 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Home from './Home';
 import {db} from '../firebase/firebase';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 class Info extends React.Component 
 { 
     constructor(props) 
@@ -48,8 +51,17 @@ class Info extends React.Component
             const res1 = await db.collection(this.state.uid).doc('Information').collection('Slots').doc(String(i)).set(data);
         }
         const res = await db.collection(this.state.uid).doc('Information').set(data);
-        window.alert("Account created! Please login again to follow the next steps");
-        this.setState({status: "home"});
+        MySwal.fire({
+            title: 'Account Created',
+            text: 'Do you want to continue',
+            icon: 'success',
+            confirmButtonText: 'Proceed',
+          }).then((result) => {
+            if(result.isConfirmed)
+            {
+              this.setState({status:"back"})
+            }
+          })
     }
     name(e)
     {
@@ -163,42 +175,6 @@ class Info extends React.Component
                 </div>
                 ) 
         }
-        if(this.state.status === "finish")
-        {
-            return (
-                <div> 
-                    <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
-                    </div>
-                    <div style={{paddingTop:"2%"}}></div>
-                    <div class = "container" style={{textAlign:"center"}}>
-                    <div class="quiz-container" id="quiz" style={{width:"75%", margin:"auto"}}>
-                        
-                        <div >
-                        <div style={{paddingTop:"5%"}}></div>
-                            <div >
-                                <h4 id="question">Parking Space Id : {this.state.uid}</h4>
-                            </div>
-                            <div style={{paddingTop:"5%"}}></div>
-                            <div >
-                                <h4 id="question">Total number of slots : {this.state.slots}</h4>
-                            </div>
-                            <div style={{paddingTop:"5%"}}></div>
-                            <div >
-                                <h4 id="question">Cost charged per minute : ₹ {this.state.cost}</h4>
-                            </div>
-                            <div style={{paddingTop:"5%"}}></div>
-                            <div >
-                                <h4 id="question">Name of the place : {this.state.name}</h4>
-                            </div>
-                            <div style={{paddingTop:"5%"}}></div>
-                        </div>
-                        <button id="submit" class="button1" style={{width:"100%"}} onClick = {this.save}>Verified!</button>
-                    </div>
-                    </div>
-                </div>
-                ) 
-        }
         if(this.state.status === "loading")
         {
             return (
@@ -235,7 +211,43 @@ class Info extends React.Component
                 </div>
                 ) 
         }
-        if(this.state.status === "home")
+        if(this.state.status === "finish")
+        {
+            return (
+                <div> 
+                    <div style = {{textAlign:"center"}}>
+                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                    </div>
+                    <div style={{paddingTop:"2%"}}></div>
+                    <div class = "container" style={{textAlign:"center"}}>
+                    <div class="quiz-container" id="quiz" style={{width:"75%", margin:"auto"}}>
+                        
+                        <div >
+                        <div style={{paddingTop:"5%"}}></div>
+                            <div >
+                                <h4 id="question">Parking Space Id : {this.state.uid}</h4>
+                            </div>
+                            <div style={{paddingTop:"5%"}}></div>
+                            <div >
+                                <h4 id="question">Total number of slots : {this.state.slots}</h4>
+                            </div>
+                            <div style={{paddingTop:"5%"}}></div>
+                            <div >
+                                <h4 id="question">Cost charged per minute : ₹ {this.state.cost}</h4>
+                            </div>
+                            <div style={{paddingTop:"5%"}}></div>
+                            <div >
+                                <h4 id="question">Name of the place : {this.state.name}</h4>
+                            </div>
+                            <div style={{paddingTop:"5%"}}></div>
+                        </div>
+                        <button id="submit" class="button1" style={{width:"100%"}} onClick = {this.save}>Verified!</button>
+                    </div>
+                    </div>
+                </div>
+                ) 
+        }
+        if(this.state.status === "back")
         {
             return <Home/>
         }

@@ -3,9 +3,10 @@ import './styles.css';
 import {db} from '../firebase/firebase';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-import Heap from './Heap';
+import Heap from '../DS/Heap';
 import Assigned from './Assigned';
 import CLogin from './CustomerLogin';
+import Home from './Home';
 class CEntry extends React.Component
 {
     constructor(props)
@@ -127,6 +128,8 @@ class CEntry extends React.Component
                         </form>
                     </main>
                     <button class="button1" type="submit" onClick = {this.assign}>Proceed</button>{ "  " }<button class = "button2" onClick = {this.login}>Login</button>
+                    <br/><br/>
+                    <button style = {{width:"300px", height: "50px", border:"none", borderRadius:"5%"}} onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button>
                         </div>
                     </div>
                 </div>
@@ -176,6 +179,10 @@ class CEntry extends React.Component
         if(this.state.status === "added")
         {
             return <Assigned parkId = {this.state.parkId} regNo = {this.state.regNo} slot = {this.state.slot}/>
+        }
+        if(this.state.status === "back")
+        {
+            return <Home/>
         }
     }
     render()

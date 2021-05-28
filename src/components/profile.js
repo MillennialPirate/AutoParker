@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.css'; 
 import Info from './Information';
 import Photo from './images/parking.svg';
+import Home from './Home';
 class Profile extends React.Component 
 { 
     constructor(props) 
@@ -26,6 +27,9 @@ class Profile extends React.Component
         }
         else 
         {
+            if(this.state.status === "home")
+            {
+                
             return (
                 <div> 
                     <div style = {{textAlign:"center"}}>
@@ -65,6 +69,7 @@ class Profile extends React.Component
                                             </div>
                                             <div style={{paddingTop:"5%"}}></div>
                                         </div>
+                                        <button style = {{width:"300px", height: "50px", border:"none", borderRadius:"5%"}} onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button><br/><br/>
                                         <button id="submit" class="button1" style={{width:"100%"}} >View analytics</button>
                                     </div>
                                     </div>
@@ -74,7 +79,13 @@ class Profile extends React.Component
                     </div>
                 </div>
                 ) 
+            }
+            else 
+            {
+                return <Home/>
+            }
         }
+        
     } 
     render() 
     { 

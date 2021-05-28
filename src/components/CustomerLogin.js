@@ -3,9 +3,9 @@ import './styles.css';
 import {db} from '../firebase/firebase';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-import Heap from './Heap';
 import Assigned from './Assigned';
 import CEntry from './CustomerEntry';
+import Home from './Home';
 class CLogin extends React.Component
 {
     constructor(props)
@@ -49,11 +49,13 @@ class CLogin extends React.Component
         if(reg == "")
         {
             window.alert("User not found");
+            this.setState({status: "home"});
             return;
         }
         if(pass != this.state.password)
         {
             window.alert("Wrong credentials");
+            this.setState({status: "home"});
             return;
         }
         //find the slots
@@ -106,6 +108,8 @@ class CLogin extends React.Component
                         </form>
                     </main>
                     <button class="button1" type="submit" onClick = {this.assign}>Proceed</button>{ "  " }<button class = "button2" onClick = {this.register}>Sign up</button>
+                    <br/><br/>
+                    <button style = {{width:"300px", height: "50px", border:"none", borderRadius:"5%"}} onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button>
                         </div>
                     </div>
                 </div>
@@ -155,6 +159,10 @@ class CLogin extends React.Component
         if(this.state.status === "register")
         {
             return <CEntry/>
+        }
+        if(this.state.status === "back")
+        {
+            return <Home/>
         }
     }
     render()

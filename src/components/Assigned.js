@@ -50,13 +50,13 @@ class Assigned extends React.Component
             if(doc.id === String(this.state.regNo))
             {
                 var timestamp = doc.data().inTime;
-
-                inTime = (new Date(timestamp.seconds*1000 + timestamp.nanoseconds/100000)).getMinutes();
+                inTime = (new Date(timestamp.seconds*1000 + timestamp.nanoseconds/100000)).getTime();
                 console.log(inTime);
             }
         });
-        var outTime = new Date().getMinutes();
-        var dif = outTime - inTime;
+        var outTime = new Date().getTime();
+        var dif = Math.floor((outTime - inTime)/(1000*60));
+        console.log(dif);
         var amt = dif*cost;
         console.log(amt)
         this.setState({amount: amt});
@@ -94,7 +94,8 @@ class Assigned extends React.Component
                                 <div class="quiz-header">
                                     <h1 style = {{fontSize:'2rem', color:"#E50914"}}>Vehicle Registration Number : <span style = {{color:"black", fontSize:"1.5rem"}}>{this.state.regNo}</span></h1>
                                     <h1 style = {{fontSize:'2rem', color:"#E50914"}}>Parking space Id : <span style = {{color:"black", fontSize:"1.5rem"}}>{this.state.parkId}</span></h1>
-                                    <button class ="button1" onClick = {this.checkOut}>Checkout!</button>
+                                    <button class ="button1" onClick = {this.checkOut}>Checkout!</button>{"  "}
+                                    <button style = {{width:"150px", height: "50px", border:"none", borderRadius:"5%"}} onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button>
                                 </div>
                                 </div>
                                 </div>
@@ -124,6 +125,10 @@ class Assigned extends React.Component
                     </div>
                 </div>
             )
+        }
+        if(this.state.status === "back")
+        {
+            return <Home/>
         }
     }
     render()
