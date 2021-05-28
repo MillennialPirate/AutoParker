@@ -12,3 +12,7 @@ AutoParker is a contactless smart parking slot allocator web app. There are two 
   <li>Node.Js</li>
   <li>RazorPay API</li>
  </ul>
+
+## Project made by 
+
+Siddharth.S.Chandran, VIT Chennai, 18BCE1003
