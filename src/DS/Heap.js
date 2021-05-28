@@ -76,15 +76,16 @@ class minHeap {
     }
 };
 let heap = new minHeap();
-module.exports.refresh = function(){
+const refresh = function(){
     heap = new minHeap();
 }
-module.exports.insert = function(x){
+const insert = function(x){
     heap.insert(x);
 }
-module.exports.remove = function(){
+const remove = function(){
     heap.removeMin();
 }
-module.exports.getMin = function(){
+const getMin = function(){
     return heap.getMin();
 }
+export default {refresh, insert, remove, getMin};

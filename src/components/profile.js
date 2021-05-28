@@ -3,6 +3,7 @@ import './styles.css';
 import Info from './Information';
 import Photo from './images/parking.svg';
 import Home from './Home';
+import Dashboard from './Dashboard';
 class Profile extends React.Component 
 { 
     constructor(props) 
@@ -33,13 +34,19 @@ class Profile extends React.Component
             return (
                 <div> 
                     <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
                     </div>
                     <div>
                         <div class = "container">
                             <div class = "row">
                                 <div class = "col-lg-6 col-md-12" style={{textAlign:"center"}}>
-                                    <img src = {Photo} style= {{width:"500px"}}/>
+                                    <div style={{paddingTop:"5%"}}></div>
+                                    <h1 class = "title">Dashboard analytics:</h1>
+                                <div class="quiz-container" id="quiz" style={{width:"75%", margin:"auto"}}>
+                                        
+                                        
+                                        <Dashboard uid = {this.state.uid}/>
+                                    </div>
                                 </div>
                                 <div class = "col-lg-6 col-md-12" style={{textAlign:"center"}}>
                                 <div style={{paddingTop:"5%"}}></div>
@@ -69,8 +76,8 @@ class Profile extends React.Component
                                             </div>
                                             <div style={{paddingTop:"5%"}}></div>
                                         </div>
-                                        <button style = {{width:"300px", height: "50px", border:"none", borderRadius:"5%"}} onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button><br/><br/>
-                                        <button id="submit" class="button1" style={{width:"100%"}} >View analytics</button>
+                                        <button class = "button1" onClick = {(e) => {this.setState({status:"back"})}}>Go Back</button><br/><br/>
+                                        
                                     </div>
                                     </div>
                                 </div>
@@ -80,7 +87,7 @@ class Profile extends React.Component
                 </div>
                 ) 
             }
-            else 
+            if(this.state.status === "back")
             {
                 return <Home/>
             }

@@ -79,6 +79,26 @@ class CEntry extends React.Component
             slot: x,
             inTime : new Date()
         };
+        //find the current number of users in  a day 
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ];
+        var today = new Date();
+        var count1 = 0;
+        var docId = String(monthNames[today.getMonth()] +  " " + today.getDate());
+        const ref6 = db.collection(this.state.parkId).doc('Information').collection('Dates');
+        const snapshot1 = await ref6.get();
+        snapshot1.forEach((doc) => {
+            if(doc.id === docId)
+            {
+                count1 = doc.data().count;
+            }
+        });
+        count1 = count1 + 1;
+        const d = {
+            count: count1,
+        }
+        const res6 = db.collection(this.state.parkId).doc('Information').collection('Dates').doc(docId).set(d);
         const res1 = await db.collection(this.state.parkId).doc('Information').collection('Users').doc(this.state.regNo).set(user);
         this.setState({status:"added"});
     }
@@ -140,7 +160,7 @@ class CEntry extends React.Component
             return (
                 <div>
                     <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
                     </div>
                     <div style = {{paddingTop:"2%"}}></div>
                     <div class = "container">

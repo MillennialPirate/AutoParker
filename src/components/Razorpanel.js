@@ -47,7 +47,7 @@ class RazorPanel extends React.Component
               }).then((result) => {
                 if(result.isConfirmed)
                 {
-                  window.location.href = "www.google.com";
+                  window.location.href = "/PaymentDone";
                 }
               })
           },

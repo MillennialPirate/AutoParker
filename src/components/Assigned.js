@@ -69,7 +69,7 @@ class Assigned extends React.Component
             return (
                 <div>
                     <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
                     </div>
                     <div class = "container" style = {{paddingTop:"5%"}}>
                         <div class = "row">
@@ -112,15 +112,15 @@ class Assigned extends React.Component
             return (
                 <div>
                     <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
                     </div>
                     <div class = "container" style={{textAlign:"center"}}>
-                        <img src = {Pic} style={{height:"500px", width:"500px"}}/>
+                        <img src = {Pic} style={{height:"350px", width:"350px"}}/>
                     </div>
                     <div class = "container">
                         <div style = {{textAlign:"center"}}>
                             <h1 class = "title">Are you sure to checkout?</h1>
-                            <RazorPanel price = {this.state.amount*100} parkId = {this.state.parkId} slot = {this.state.slot} regNo = {this.state.regNo}/><br/><br/><button class = "button2">Go back</button>
+                            <RazorPanel price = {this.state.amount*100} parkId = {this.state.parkId} slot = {this.state.slot} regNo = {this.state.regNo}/><br/><br/><button class = "button2" onClick ={(e) => {this.setState({status: "home"})}}>Go back</button>
                         </div>
                     </div>
                 </div>

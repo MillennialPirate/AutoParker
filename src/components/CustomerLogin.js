@@ -120,7 +120,7 @@ class CLogin extends React.Component
             return (
                 <div>
                     <div style = {{textAlign:"center"}}>
-                        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
+                        <a href="#"><img src="https://fontmeme.com/permalink/210525/a4aeb530976e0eb036bb6bf970abf2fb.png" alt="netflix-font" border="0"/></a>
                     </div>
                     <div style = {{paddingTop:"2%"}}></div>
                     <div class = "container">
