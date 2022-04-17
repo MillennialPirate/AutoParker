@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;900&display=swap');
+*{
+    font-family: 'Raleway', sans-serif;
+}
+/*Navbar styling*/
+.title{
+    font-size: 2rem;
+    font-weight: bolder;
+    padding: 0;
+    margin: 0;
+}
+.link{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+/*Home Page*/
+.introduction{
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+.introTitle{
+    text-align: center;
+}
+.introTitle h1{
+    font-size: 3rem;
+    font-weight: bolder;
+}
+.explanation{
+    margin: auto;
+    width: 40%;
+    text-align: center;
+    font-size: 1.25rem;
+}
+.bottomImage{
+    text-align: center;
+}
+.bottomImage img{
+    height: 376px;
+}
+/*Sign Up Page*/
+.heading{
+    padding-top: 2%;
+    text-align: center;
+}
+.heading h1{
+    font-size: 3rem;
+    font-weight: bolder;
+}
+.middleImg{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+}
+.middleImg img{
+    height: 200px;
+}
+/**FORMS**/
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+  
+.form-signin .checkbox {
+    font-weight: 400;
+}
+  
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+.form-signin input[type = "text"]{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.footer{
+    text-align: center;
+}
+/*Admin Sign up*/
+.form-signin input[type="email1"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}

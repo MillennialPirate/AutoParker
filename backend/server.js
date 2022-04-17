@@ -17,7 +17,8 @@ connection.once('open', () => {
 
 const userRoute = require('./controllers/AuthenticationController');
 app.use('/users', userRoute);
-
+const customerRoute = require('./controllers/CustomerAuthenticationController');
+app.use('/customers', customerRoute);
 
 app.listen(port, () => {
     console.log('Server Up and Running at Port => ' + port);
